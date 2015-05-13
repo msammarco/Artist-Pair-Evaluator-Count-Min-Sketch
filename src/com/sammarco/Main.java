@@ -10,16 +10,16 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter the input file: ");
         String inputFileName = sc.next();
+        System.out.print("Enter the minimum matches we're interested in: ");
+        int matchMin = Integer.parseInt(sc.next()); //How many duplicate pairs do we count before considering it a result.
         System.out.print("Enter the output file: ");
         String outputFileName = sc.next();
-
-        int matchMin = 50; //How many duplicate pairs do we count before considering it a result.
         try {
-            ArtistPairEvaluator artistEvaluator = new ArtistPairEvaluator(inputFileName, matchMin);
+            ArtistPairEvaluator artistEvaluator = new ArtistPairEvaluator(inputFileName, matchMin,
+                    CountMinSketch.DEFAULT_EPSILON, CountMinSketch.DEFAULT_DELTA);
             long now = System.currentTimeMillis();
             artistEvaluator.findBrutePairs();
             long doneTime = System.currentTimeMillis() - now;

@@ -27,16 +27,16 @@ public class CountMinSketch {
     private int d;
     private int w;
 
-    static final String hashName = "MD5"; // SHA1 can be used or murmurhash is another option for increased precision.
-    static final MessageDigest digestFunction;
+    private static final String HASH_NAME = "MD5"; // SHA1 can be used or murmurhash is another option for increased precision.
+    private static final MessageDigest DIGEST_FUNCTION;
     static { // The digest method is reused between instances
         MessageDigest tmp;
         try {
-            tmp = java.security.MessageDigest.getInstance(hashName);
+            tmp = java.security.MessageDigest.getInstance(HASH_NAME);
         } catch (NoSuchAlgorithmException e) {
             tmp = null;
         }
-        digestFunction = tmp;
+        DIGEST_FUNCTION = tmp;
     }
 
 
@@ -87,9 +87,9 @@ public class CountMinSketch {
         int k = 0;
         byte salt = 0;
         while (k < w) {
-            digestFunction.update(salt);
+            DIGEST_FUNCTION.update(salt);
             salt++;
-            byte[] digest = digestFunction.digest(element.getBytes());
+            byte[] digest = DIGEST_FUNCTION.digest(element.getBytes());
             // Split the digest into ints to derive as indices
             for (int i = 0; i < digest.length / 4 && k < w; i++) {
                 int hash = 0;
